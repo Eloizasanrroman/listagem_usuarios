@@ -596,295 +596,156 @@ form button:hover {
 
 }
 
+
+
+
+
+
 /* DADOS DO USUÁRIO CADASTRADO */
 
 .novo-usuario {
+    position: relative;
     margin-top: -5px;
     margin-bottom: 35px;
-    padding: 28px 30px;
-    background: #ffffff;
+    padding: 30px 32px 32px;
+    overflow: hidden;
+    background: linear-gradient(145deg, #ffffff, #fffafd);
     border: 1px solid #eee2e9;
-    border-radius: 22px;
-    box-shadow: 0 10px 30px rgba(82, 56, 74, 0.06);
+    border-radius: 24px;
+    box-shadow: 0 14px 38px rgba(82, 56, 74, 0.08);
 }
 
-.novo-usuario h2 {
-    margin-bottom: 20px;
-    color: #3d3540;
+.novo-usuario::before {
+    content: "✓";
+    position: absolute;
+    top: 27px;
+    right: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 43px;
+    height: 43px;
+    border-radius: 13px;
+    background: #f0faf3;
+    border: 1px solid #d8eddf;
+    color: #5b9a6d;
     font-size: 19px;
     font-weight: 700;
 }
 
+.novo-usuario h2 {
+    margin-bottom: 23px;
+    padding-right: 60px;
+    color: #3d3540;
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: -0.3px;
+}
+
+.novo-usuario h2::after {
+    content: "Informações registradas no cadastro";
+    display: block;
+    margin-top: 6px;
+    color: #a2949e;
+    font-size: 12px;
+    font-weight: 400;
+    letter-spacing: 0;
+}
+
 .novo-usuario p {
+    position: relative;
     display: flex;
-    flex-direction: column;
-    gap: 5px;
-    padding: 13px 15px;
-    margin-top: 9px;
+    align-items: center;
+    gap: 18px;
+    min-height: 62px;
+    padding: 11px 18px 11px 72px;
+    margin-top: 10px;
     border: 1px solid #f0e5eb;
-    border-radius: 12px;
-    background: #fffafd;
-    color: #756875;
+    border-radius: 15px;
+    background: #fff;
+    color: #5f5360;
     font-size: 14px;
+    box-shadow: 0 4px 14px rgba(82, 56, 74, 0.035);
+    transition: all 0.2s ease;
+}
+
+.novo-usuario p::before {
+    position: absolute;
+    left: 17px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 11px;
+    background: #fbeaf3;
+    color: #d96a9d;
+    font-size: 17px;
+}
+
+.novo-usuario p:nth-of-type(1)::before {
+    content: "♡";
+}
+
+.novo-usuario p:nth-of-type(2)::before {
+    content: "@";
+}
+
+.novo-usuario p:nth-of-type(3)::before {
+    content: "✉";
+}
+
+.novo-usuario p:nth-of-type(4)::before {
+    content: "☎";
+}
+
+.novo-usuario p:hover {
+    border-color: #e8cedc;
+    transform: translateX(3px);
+    box-shadow: 0 7px 18px rgba(82, 56, 74, 0.06);
 }
 
 .novo-usuario strong {
+    min-width: 72px;
     color: #d96a9d;
-    font-size: 11px;
+    font-size: 10px;
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.7px;
+    letter-spacing: 1px;
 }
 
-/* CARREGAMENTO */
-
-.loading {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    min-height: 100px;
-    color: var(--rosa-escuro);
-    font-size: 15px;
-    font-weight: 600;
-}
-
-.loading::before {
-    content: "";
-    width: 17px;
-    height: 17px;
-    border: 2px solid #f1d8e4;
-    border-top-color: var(--rosa);
-    border-radius: 50%;
-    animation: carregar 0.8s linear infinite;
-}
-
-@keyframes carregar {
-    to {
-        transform: rotate(360deg);
-    }
-}
-
-/* SEM USUÁRIOS */
-
-.no-users {
-    padding: 45px 25px;
-    margin: 12px 0 35px;
-    border: 1px dashed #e5d5df;
-    border-radius: 20px;
-    background: rgba(255, 255, 255, 0.72);
-    color: var(--texto-suave);
-    text-align: center;
-    font-size: 15px;
-}
-
-/* ERRO */
-
-.error {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 15px 18px;
-    margin: 18px 0 25px;
-    border: 1px solid #efd4dc;
-    border-radius: 14px;
-    background: #fff3f5;
-    color: #a65f70;
-    font-size: 14px;
-}
-
-.error::before {
-    content: "!";
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    width: 25px;
-    height: 25px;
-    border-radius: 50%;
-    background: #e9a2b3;
-    color: #ffffff;
-    font-size: 13px;
-    font-weight: 700;
-}
-
-/* RESPONSIVIDADE */
-
-@media (max-width: 850px) {
-    .user-list {
-        grid-template-columns: 1fr;
-    }
-
-
-    .title {
-        font-size: 32px;
-    }
-
-
-}
-
-@media (max-width: 650px) {
-    body {
-        padding: 22px 0 45px;
-    }
-
-
-    .container {
-        width: 92%;
-    }
-
-    .title {
-        min-height: 215px;
-        justify-content: center;
-        padding: 125px 25px 30px;
-        border-radius: 23px 23px 0 0;
-        text-align: center;
-        font-size: 28px;
-        line-height: 1.2;
-    }
-
-    .title::before {
-        top: 28px;
-        left: 0;
-        width: 100%;
-        text-align: center;
-    }
-
-    .title::after {
-        left: 50%;
-        top: 45px;
-        width: 64px;
-        height: 64px;
-        transform: translateX(-50%);
-        border-radius: 19px;
-        font-size: 33px;
-    }
-
-    .search {
-        height: 59px;
-        margin-bottom: 35px;
-        border-radius: 0 0 23px 23px;
-    }
-
-    .user-card {
-        min-height: 116px;
-        padding: 20px 18px 20px 87px;
-    }
-
-    .user-card::before {
-        left: 18px;
-        width: 52px;
-        height: 52px;
-        border-radius: 15px;
-        font-size: 25px;
-    }
-
-    .user-name {
-        font-size: 16px;
-        padding-right: 8px;
-    }
-
-    .user-card button {
-        padding: 9px 11px 9px 31px;
-        font-size: 11px;
-    }
-
-    .user-card button::before {
-        left: 11px;
-        font-size: 16px;
-    }
-
-    form {
-        grid-template-columns: 1fr;
-        padding: 24px 20px;
-        border-radius: 20px;
-    }
-
-    form::before {
-        grid-column: 1;
-        font-size: 17px;
-    }
-
-    form::after {
-        top: 52px;
-        left: 20px;
-        font-size: 12px;
-    }
-
-    form input:nth-of-type(1),
-    form input:nth-of-type(2) {
-        margin-top: 28px;
-    }
-
-    form input:nth-of-type(3),
-    form input:nth-of-type(4) {
-        margin-top: 0;
-    }
-
-    form button {
-        grid-column: 1;
-        width: 100%;
-    }
-
-    .modal {
-        padding: 18px;
-    }
-
-    .modal-content {
-        padding: 24px 20px;
-        border-radius: 20px;
-    }
-
-    .modal-header h2 {
-        font-size: 21px;
-    }
-
-    .modal-info p {
-        padding: 13px 14px;
-    }
-
-    .mensagem-sucesso,
-    .mensagem-erro {
-        align-items: flex-start;
-        padding: 15px;
-    }
-
-    .mensagem-icone {
-        width: 33px;
-        height: 33px;
-    }
-
+@media (max-width: 600px) {
     .novo-usuario {
-        padding: 23px 18px;
-        border-radius: 19px;
+        padding: 25px 18px 22px;
+        border-radius: 20px;
+    }
+
+    .novo-usuario::before {
+        top: 22px;
+        right: 18px;
+        width: 38px;
+        height: 38px;
     }
 
     .novo-usuario h2 {
+        padding-right: 50px;
         font-size: 18px;
     }
 
-
-}
-
-@media (max-width: 400px) {
-    .title {
-        font-size: 25px;
-    }
-
-
-    .user-card {
+    .novo-usuario p {
         align-items: flex-start;
         flex-direction: column;
-        gap: 15px;
+        gap: 3px;
+        padding: 13px 15px 13px 65px;
     }
 
-    .user-card button {
-        align-self: flex-end;
+    .novo-usuario p::before {
+        left: 15px;
+        top: 50%;
+        transform: translateY(-50%);
     }
 
-    .info {
-        font-size: 13px;
+    .novo-usuario strong {
+        min-width: auto;
     }
-
-
 }
