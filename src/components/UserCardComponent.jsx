@@ -1,11 +1,15 @@
-function UserCardComponent({ usuario }) {
+function UserCardComponent({ usuario, onSelecionarUsuario }) {
     return (
         <li className="user-card">
-            <hr />
-            <strong className="user-name">
+            <h2 className="user-name">
                 {usuario.name}
-            </strong>
-            <br /><br />
+            </h2>
+
+            <button
+                onClick={() => {
+                    onSelecionarUsuario(usuario.id)
+                }}
+            >Ver detalhes</button>
         </li>
     )
 }

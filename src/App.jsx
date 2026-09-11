@@ -5,6 +5,12 @@ import "./style.css";
 import HeaderComponent from "./components/HeaderComponent";
 import LoadingComponent from "./components/LoadingComponent";
 import UserListComponent from "./components/UserListComponent";
+import UserDetailsComponent from "./components/UserDetailsComponent";
+import UserForm from "./components/UserForm";
+import NovoUsuarioComponent from "./components/NovoUsuarioComponent";
+import MensagemSucessoComponent from "./components/MensagemSucessoComponent";
+import MensagemErroComponent from "./components/MensagemErroComponent";
+
 
 const filtrarUsuarioPorTermo = (termo) => (usuario) => {
     const termoLower = termo.toLowerCase()
@@ -23,10 +29,25 @@ function App() {
     const [erro, setErro] = useState(null)
     const [carregando, setCarregando] = useState(true)
     const [busca, setBusca] = useState("")
+    const [usuarioSelecionado, setUsuarioSelecionado] = useState(null)
+    const [novoUsuario, setNovoUsuario] = useState(null)
+    const [erroCadastro, setErroCadastro] = useState(false)
 
     const usuarioFiltrados = usuarios.filter(
         filtrarUsuarioPorTermo(busca)
     )
+
+    async function buscarUsuario(id) {
+        try {
+            const response = await axios.get(
+                `${url}/users/${id}`
+            )
+            const data = response.data
+            setUsuarioSelecionado(data)
+        } catch (error) {
+            console.log("Erro o buscar usuário: ", error)
+        }
+    }
 
     async function buscarUsuarios() {
         try {
@@ -56,6 +77,31 @@ function App() {
             setCarregando(false)
         }
     }
+
+
+
+    function limparDetalhesUsuario() {
+        setUsuarioSelecionado(null)
+    }
+
+
+    async function cadastrarUsuario(usuario) {
+        try {
+            setErroCadastro(false)
+            const response = await axios.post(
+                `${url}/users`, usuario
+            )
+            const data = response.data
+            setNovoUsuario(data)
+
+        } catch (error) {
+            console.log("Erro ao cadastrar usuário: ", error)
+
+            setNovoUsuario(null)
+            setErroCadastro(true)
+        }
+    }
+
 
     useEffect(() => {
         buscarUsuarios()
@@ -92,15 +138,34 @@ function App() {
                     {usuarioFiltrados.length > 0 ? (
                         <UserListComponent
                             usuarios={usuarioFiltrados}
+                            onSelecionarUsuario={buscarUsuario}
                         />
                     ) : (
                         <p className="no-users">
                             Nenhum usuário encontrado.
                         </p>
                     )}
+
+                    {usuarioSelecionado && (
+                        <UserDetailsComponent
+                            usuario={usuarioSelecionado}
+                            onFecharDetalhes={limparDetalhesUsuario}
+                        />
+                    )}
+                    
+
+                    <UserForm onCadastrar={cadastrarUsuario} />
+
+                    {novoUsuario && (
+                        <> <MensagemSucessoComponent /> <NovoUsuarioComponent novousuario={novoUsuario} />
+                        </>
+                    )}
+
+                    {erroCadastro && (<MensagemErroComponent />
+                    )}
+
                 </>
             )}
-
         </div>
     );
 }
