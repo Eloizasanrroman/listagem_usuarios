@@ -1,19 +1,32 @@
 import { useState } from "react";
 
-function UserForm({ onCadastrar }){
+function UserForm({ onCadastrar, onErro }) {
     const [name, setName] = useState("")
     const [username, setUsername] = useState("")
     const [email, setEmail] = useState("")
     const [telefone, setTelefone] = useState("")
 
+
     function handleSubmit(evento) {
         evento.preventDefault()
+
+        if (
+            name.trim() === "" ||
+            username.trim() === "" ||
+            email.trim() === "" ||
+            telefone.trim() === ""
+        ) {
+            onErro()
+            return
+        }
+
         const novoUsuario = {
             name: name,
             username: username,
             email: email,
             phone: telefone,
         }
+
         onCadastrar(novoUsuario)
         limparFormulario()
     }
@@ -27,7 +40,8 @@ function UserForm({ onCadastrar }){
 
     return (
         <form onSubmit={handleSubmit}>
-            <input type="text"
+            <input
+                type="text"
                 placeholder="Nome"
                 value={name}
                 onChange={(evento) => {
@@ -35,7 +49,8 @@ function UserForm({ onCadastrar }){
                 }}
             />
 
-            <input type="text"
+            <input
+                type="text"
                 placeholder="Usuario"
                 value={username}
                 onChange={(evento) => {
@@ -43,7 +58,8 @@ function UserForm({ onCadastrar }){
                 }}
             />
 
-            <input type="email"
+            <input
+                type="email"
                 placeholder="E-mail"
                 value={email}
                 onChange={(evento) => {
@@ -51,7 +67,8 @@ function UserForm({ onCadastrar }){
                 }}
             />
 
-            <input type="text"
+            <input
+                type="text"
                 placeholder="Telefone"
                 value={telefone}
                 onChange={(evento) => {

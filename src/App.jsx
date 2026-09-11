@@ -152,16 +152,22 @@ function App() {
                             onFecharDetalhes={limparDetalhesUsuario}
                         />
                     )}
-                    
 
-                    <UserForm onCadastrar={cadastrarUsuario} />
+
+                    <UserForm
+                        onCadastrar={cadastrarUsuario}
+                        onErro={() => setErroCadastro(true)}
+                    />
 
                     {novoUsuario && (
-                        <> <MensagemSucessoComponent /> <NovoUsuarioComponent novousuario={novoUsuario} />
+                        <> 
+                            <MensagemSucessoComponent /> 
+                            <NovoUsuarioComponent novousuario={novoUsuario} />
                         </>
                     )}
 
-                    {erroCadastro && (<MensagemErroComponent />
+                    {erroCadastro && (
+                        <MensagemErroComponent />
                     )}
 
                 </>
