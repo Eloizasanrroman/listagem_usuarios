@@ -32,6 +32,7 @@ function App() {
     const [usuarioSelecionado, setUsuarioSelecionado] = useState(null)
     const [novoUsuario, setNovoUsuario] = useState(null)
     const [erroCadastro, setErroCadastro] = useState(false)
+    const [mostrarCadastro, setMostrarCadastro] = useState(false)
 
     const usuarioFiltrados = usuarios.filter(
         filtrarUsuarioPorTermo(busca)
@@ -39,11 +40,21 @@ function App() {
 
     async function buscarUsuario(id) {
         try {
+            const usuarioEncontrado = usuarios.find(
+                (usuario) => usuario.id === id
+            )
+
+            if (usuarioEncontrado && !usuarioEncontrado.address) {
+                setUsuarioSelecionado(usuarioEncontrado)
+                return
+            }
+
             const response = await axios.get(
                 `${url}/users/${id}`
             )
             const data = response.data
             setUsuarioSelecionado(data)
+
         } catch (error) {
             console.log("Erro o buscar usuário: ", error)
         }
@@ -78,12 +89,15 @@ function App() {
         }
     }
 
-
-
     function limparDetalhesUsuario() {
         setUsuarioSelecionado(null)
     }
 
+    function excluirUsuario(id) {
+        setUsuarios((usuariosAtuais) =>
+            usuariosAtuais.filter((usuario) => usuario.id !== id)
+        )
+    }
 
     async function cadastrarUsuario(usuario) {
         try {
@@ -93,12 +107,15 @@ function App() {
             )
             const data = response.data
             setNovoUsuario(data)
+            setUsuarios((usuariosAtuais) => [...usuariosAtuais, data])
+            setMostrarCadastro(false)
 
         } catch (error) {
             console.log("Erro ao cadastrar usuário: ", error)
 
             setNovoUsuario(null)
             setErroCadastro(true)
+            setMostrarCadastro(false)
         }
     }
 
@@ -119,10 +136,6 @@ function App() {
                 <LoadingComponent />
             )}
 
-            <p className="info">
-                Usuários encontrados: {usuarios.length}
-            </p>
-
             {erro && (
                 <p className="error">
                     {erro}
@@ -135,33 +148,16 @@ function App() {
                         {usuarioFiltrados.length} usuário(s) encontrado(s)
                     </p>
 
-                    {usuarioFiltrados.length > 0 ? (
-                        <UserListComponent
-                            usuarios={usuarioFiltrados}
-                            onSelecionarUsuario={buscarUsuario}
-                        />
-                    ) : (
-                        <p className="no-users">
-                            Nenhum usuário encontrado.
-                        </p>
-                    )}
-
-                    {usuarioSelecionado && (
-                        <UserDetailsComponent
-                            usuario={usuarioSelecionado}
-                            onFecharDetalhes={limparDetalhesUsuario}
-                        />
-                    )}
-
-
-                    <UserForm
-                        onCadastrar={cadastrarUsuario}
-                        onErro={() => setErroCadastro(true)}
-                    />
+                    <button
+                        className="botao-cadastrar"
+                        onClick={() => setMostrarCadastro(true)}
+                    >
+                        Cadastrar Usuários +
+                    </button>
 
                     {novoUsuario && (
-                        <> 
-                            <MensagemSucessoComponent /> 
+                        <>
+                            <MensagemSucessoComponent />
                             <NovoUsuarioComponent novousuario={novoUsuario} />
                         </>
                     )}
@@ -170,6 +166,68 @@ function App() {
                         <MensagemErroComponent />
                     )}
 
+                    {usuarioFiltrados.length > 0 ? (
+                        <UserListComponent
+                            usuarios={usuarioFiltrados}
+                            onSelecionarUsuario={buscarUsuario}
+                            onExcluirUsuario={excluirUsuario}
+                        />
+                    ) : (
+                        <p className="no-users">
+                            Nenhum usuário encontrado.
+                        </p>
+                    )}
+
+
+
+                    {usuarioSelecionado && (
+                        <UserDetailsComponent
+                            usuario={usuarioSelecionado}
+                            onFecharDetalhes={limparDetalhesUsuario}
+                        />
+                    )}
+
+                    {mostrarCadastro && (
+                        <div
+                            className="cadastro-modal"
+                            onClick={() => setMostrarCadastro(false)}
+                        >
+                            <div
+                                className="cadastro-modal-content"
+                                onClick={(evento) => evento.stopPropagation()}
+                            >
+                                <div className="cadastro-modal-header">
+                                    <div>
+                                        <span className="cadastro-modal-label">
+                                            NOVO CADASTRO
+                                        </span>
+
+                                        <h2>Cadastrar usuário</h2>
+
+                                        <p>
+                                            Preencha os dados abaixo para adicionar um novo usuário.
+                                        </p>
+                                    </div>
+
+                                    <button
+                                        className="cadastro-modal-close"
+                                        onClick={() => setMostrarCadastro(false)}
+                                    >
+                                        ×
+                                    </button>
+                                </div>
+
+                                <UserForm
+                                    onCadastrar={cadastrarUsuario}
+                                    onErro={() => {
+                                        setNovoUsuario(null)
+                                        setErroCadastro(true)
+                                        setMostrarCadastro(false)
+                                    }}
+                                />
+                            </div>
+                        </div>
+                    )}
                 </>
             )}
         </div>

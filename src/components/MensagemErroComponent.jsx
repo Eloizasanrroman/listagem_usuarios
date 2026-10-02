@@ -4,8 +4,8 @@ function MensagemErroComponent() {
             <span className="mensagem-icone">!</span>
 
             <div>
-                <strong>Não foi possível cadastrar o usuário.</strong>
-                <p>Ocorreu um erro ao tentar realizar o cadastro.</p>
+                <strong>Ocorreu um Erro</strong>
+                <p>Você precisa preencher todos os campos.</p>
             </div>
         </div>
     )

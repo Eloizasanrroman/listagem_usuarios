@@ -29,7 +29,7 @@ function UserDetailsComponent({ usuario, onFecharDetalhes }) {
 
                     <p>
                         <strong>Cidade</strong>
-                        {usuario.address.city}
+                        {usuario.address ? usuario.address.city : "Não informado"}
                     </p>
 
                     <p>

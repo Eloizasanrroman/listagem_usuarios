@@ -1,17 +1,18 @@
-import UserCardComponent from "./UserCardComponent"
-
-function UserListComponent({ usuarios, onSelecionarUsuario }) {
-    return (
-        <ul className="user-list">
-            {usuarios.map(usuario => (
-                <UserCardComponent
-                    key={usuario.id}
-                    usuario={usuario}
+import UserCardComponent from "./UserCardComponent" 
+ 
+function UserListComponent({ usuarios, onSelecionarUsuario, onExcluirUsuario }) { 
+    return ( 
+        <ul className="user-list"> 
+            {usuarios.map(usuario => ( 
+                <UserCardComponent 
+                    key={usuario.id} 
+                    usuario={usuario} 
                     onSelecionarUsuario={onSelecionarUsuario}
-                />
-            ))}
-        </ul>
-    )
-}
-
+                    onExcluirUsuario={onExcluirUsuario}
+                /> 
+            ))} 
+        </ul> 
+    ) 
+} 
+ 
 export default UserListComponent
